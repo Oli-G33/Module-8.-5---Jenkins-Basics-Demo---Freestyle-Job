@@ -27,7 +27,7 @@ pipeline {
         stage("build image") {
             steps {
                 script {
-                    buildImage()
+                    buildImage 'oligee/demo-app-jenkins:3.0'
                 }
             }
         }
