@@ -1,5 +1,12 @@
 #!/user/bin/env groovy
-@Library('jenkins-shared-library')
+
+library identifier: 'jenkins-shared-library@master', retriever: modernSCM(
+    [
+        $class: 'GitSCMSource',
+        remote: 'https://github.com/Oli-G33/Module-8.-14---Jenkins-Shared-Library.git',
+        credentialsId: 'github-credentials'
+    ])
+    
 def gv
 
 pipeline {   
@@ -24,10 +31,12 @@ pipeline {
             }
         }
 
-        stage("build image") {
+        stage("build and push image") {
             steps {
                 script {
                     buildImage 'oligee/demo-app-jenkins:3.0'
+                    dockerLogin()
+                    dockerPush 'oligee/demo-app-jenkins:3.0'
                 }
             }
         }
